@@ -10,6 +10,14 @@ namespace Project
 {
     public class MvcApplication : System.Web.HttpApplication
     {
+        public Controllers.HomeController HomeController
+        {
+            get => default(Controllers.HomeController);
+            set
+            {
+            }
+        }
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();

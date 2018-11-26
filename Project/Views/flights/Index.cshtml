@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Project.Models.flight>
+
+@{
+    ViewBag.Title = "Index";
+}
+<body>
+    <h1>All available flights</h1>
+     <p>
+         @*@Html.ActionLink("Create New", "Create")*@
+    </p>
+    <div id="myTable" class="table-responsive">
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    Departure Place
+                </th>
+                <th>
+                    Destination Place
+                </th>
+                <th>
+                    Departure Time
+                </th>
+                <th>
+                    Arrival Time
+                </th>
+                <th>
+                    Flight Status
+                </th>
+                <th>
+                    Landing strip ID
+                </th>
+                <th>
+                    Plane type
+                </th>
+            </tr>
+
+
+            @foreach (var item in Model)
+             {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeparturePlace)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DestinationPlace)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DepartureTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ArrivalTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FlightStatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StripID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.plane.Type)
+                    </td>
+                    <td>
+
+                 @Html.ActionLink("Edit", "Edit", new { id=item.FlightID })
+                 @Html.ActionLink("Passengers","Passengers", new { id = item.FlightID })
+                 @Html.ActionLink("Employees", "Employees", new { id = item.FlightID})
+                 @*@Html.ActionLink("Details", "Details", new { id = item.FlightID })
+                 @Html.ActionLink("Delete", "Delete", new { id = item.FlightID })*@
+                    </td>
+                </tr>
+             }
+        </table>
+    </div>
+ </body>

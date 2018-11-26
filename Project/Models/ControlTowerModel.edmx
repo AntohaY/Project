@@ -1,0 +1,589 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="controltowerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="crew">
+          <Key>
+            <PropertyRef Name="CrewID" />
+          </Key>
+          <Property Name="CrewID" Type="int" Nullable="false" />
+          <Property Name="Pilot" Type="int" Nullable="false" />
+          <Property Name="SecondPilot" Type="int" Nullable="false" />
+          <Property Name="Stewardess" Type="int" Nullable="false" />
+          <Property Name="Engineer" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="employees">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="int" Nullable="false" />
+          <Property Name="Fullname" Type="varchar(max)" Nullable="false" />
+          <Property Name="Age" Type="int" Nullable="false" />
+          <Property Name="JobPosition" Type="varchar(max)" Nullable="false" />
+          <Property Name="Address" Type="varchar(max)" Nullable="false" />
+          <Property Name="DateofBirth" Type="date" Nullable="false" />
+          <Property Name="RecruitmentDate" Type="date" Nullable="false" />
+          <Property Name="PhoneNumber" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="flight">
+          <Key>
+            <PropertyRef Name="FlightID" />
+          </Key>
+          <Property Name="FlightID" Type="int" Nullable="false" />
+          <Property Name="DeparturePlace" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="DestinationPlace" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="DepartureTime" Type="datetime2" Precision="0" Nullable="false" />
+          <Property Name="ArrivalTime" Type="datetime2" Precision="0" Nullable="false" />
+          <Property Name="FlightStatus" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="PlaneID" Type="int" Nullable="false" />
+          <Property Name="StripID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="landingstrips">
+          <Key>
+            <PropertyRef Name="StripID" />
+          </Key>
+          <Property Name="StripID" Type="int" Nullable="false" />
+          <Property Name="Status" Type="varchar(max)" Nullable="false" />
+          <Property Name="FlightID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="passengers">
+          <Key>
+            <PropertyRef Name="PassengerID" />
+          </Key>
+          <Property Name="PassengerID" Type="int" Nullable="false" />
+          <Property Name="Fullname" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Age" Type="int" Nullable="false" />
+          <Property Name="PhoneNumber" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Address" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="plane">
+          <Key>
+            <PropertyRef Name="PlaneID" />
+          </Key>
+          <Property Name="PlaneID" Type="int" Nullable="false" />
+          <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Seats" Type="int" Nullable="false" />
+          <Property Name="Crew" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ticket">
+          <Key>
+            <PropertyRef Name="TicketID" />
+          </Key>
+          <Property Name="FlightID" Type="int" Nullable="false" />
+          <Property Name="Seat" Type="int" Nullable="false" />
+          <Property Name="PassengerID" Type="int" Nullable="false" />
+          <Property Name="TicketID" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+        </EntityType>
+        <Association Name="crew_ibfk_1">
+          <End Role="employees" Type="Self.employees" Multiplicity="1" />
+          <End Role="crew" Type="Self.crew" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="crew">
+              <PropertyRef Name="Pilot" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="crew_ibfk_2">
+          <End Role="employees" Type="Self.employees" Multiplicity="1" />
+          <End Role="crew" Type="Self.crew" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="crew">
+              <PropertyRef Name="SecondPilot" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="crew_ibfk_3">
+          <End Role="employees" Type="Self.employees" Multiplicity="1" />
+          <End Role="crew" Type="Self.crew" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="crew">
+              <PropertyRef Name="Stewardess" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="crew_ibfk_4">
+          <End Role="employees" Type="Self.employees" Multiplicity="1" />
+          <End Role="crew" Type="Self.crew" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="crew">
+              <PropertyRef Name="Engineer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_crew_plane">
+          <End Role="crew" Type="Self.crew" Multiplicity="1" />
+          <End Role="plane" Type="Self.plane" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crew">
+              <PropertyRef Name="CrewID" />
+            </Principal>
+            <Dependent Role="plane">
+              <PropertyRef Name="Crew" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_flight_ticket1">
+          <End Role="flight" Type="Self.flight" Multiplicity="1" />
+          <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="flight">
+              <PropertyRef Name="FlightID" />
+            </Principal>
+            <Dependent Role="ticket">
+              <PropertyRef Name="FlightID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_landingstrips_flight">
+          <End Role="flight" Type="Self.flight" Multiplicity="1" />
+          <End Role="landingstrips" Type="Self.landingstrips" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="flight">
+              <PropertyRef Name="FlightID" />
+            </Principal>
+            <Dependent Role="landingstrips">
+              <PropertyRef Name="FlightID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_plane_flight">
+          <End Role="plane" Type="Self.plane" Multiplicity="1" />
+          <End Role="flight" Type="Self.flight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="plane">
+              <PropertyRef Name="PlaneID" />
+            </Principal>
+            <Dependent Role="flight">
+              <PropertyRef Name="PlaneID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ticket_ticket">
+          <End Role="passengers" Type="Self.passengers" Multiplicity="1" />
+          <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="passengers">
+              <PropertyRef Name="PassengerID" />
+            </Principal>
+            <Dependent Role="ticket">
+              <PropertyRef Name="PassengerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="controltowerModelStoreContainer">
+          <EntitySet Name="crew" EntityType="Self.crew" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="employees" EntityType="Self.employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="flight" EntityType="Self.flight" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="landingstrips" EntityType="Self.landingstrips" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="passengers" EntityType="Self.passengers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="plane" EntityType="Self.plane" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ticket" EntityType="Self.ticket" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="crew_ibfk_1" Association="Self.crew_ibfk_1">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="crew" EntitySet="crew" />
+          </AssociationSet>
+          <AssociationSet Name="crew_ibfk_2" Association="Self.crew_ibfk_2">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="crew" EntitySet="crew" />
+          </AssociationSet>
+          <AssociationSet Name="crew_ibfk_3" Association="Self.crew_ibfk_3">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="crew" EntitySet="crew" />
+          </AssociationSet>
+          <AssociationSet Name="crew_ibfk_4" Association="Self.crew_ibfk_4">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="crew" EntitySet="crew" />
+          </AssociationSet>
+          <AssociationSet Name="FK_crew_plane" Association="Self.FK_crew_plane">
+            <End Role="crew" EntitySet="crew" />
+            <End Role="plane" EntitySet="plane" />
+          </AssociationSet>
+          <AssociationSet Name="FK_flight_ticket1" Association="Self.FK_flight_ticket1">
+            <End Role="flight" EntitySet="flight" />
+            <End Role="ticket" EntitySet="ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_landingstrips_flight" Association="Self.FK_landingstrips_flight">
+            <End Role="flight" EntitySet="flight" />
+            <End Role="landingstrips" EntitySet="landingstrips" />
+          </AssociationSet>
+          <AssociationSet Name="FK_plane_flight" Association="Self.FK_plane_flight">
+            <End Role="plane" EntitySet="plane" />
+            <End Role="flight" EntitySet="flight" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ticket_ticket" Association="Self.FK_ticket_ticket">
+            <End Role="passengers" EntitySet="passengers" />
+            <End Role="ticket" EntitySet="ticket" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="controltowerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="crew">
+          <Key>
+            <PropertyRef Name="CrewID" />
+          </Key>
+          <Property Name="CrewID" Type="Int32" Nullable="false" />
+          <Property Name="Pilot" Type="Int32" Nullable="false" />
+          <Property Name="SecondPilot" Type="Int32" Nullable="false" />
+          <Property Name="Stewardess" Type="Int32" Nullable="false" />
+          <Property Name="Engineer" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="employees" Relationship="Self.crew_ibfk_1" FromRole="crew" ToRole="employees" />
+          <NavigationProperty Name="employees1" Relationship="Self.crew_ibfk_2" FromRole="crew" ToRole="employees" />
+          <NavigationProperty Name="employees2" Relationship="Self.crew_ibfk_3" FromRole="crew" ToRole="employees" />
+          <NavigationProperty Name="employees3" Relationship="Self.crew_ibfk_4" FromRole="crew" ToRole="employees" />
+          <NavigationProperty Name="plane" Relationship="Self.FK_crew_plane" FromRole="crew" ToRole="plane" />
+        </EntityType>
+        <EntityType Name="employees">
+          <Key>
+            <PropertyRef Name="EmployeeID" />
+          </Key>
+          <Property Name="EmployeeID" Type="Int32" Nullable="false" />
+          <Property Name="Fullname" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Age" Type="Int32" Nullable="false" />
+          <Property Name="JobPosition" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateofBirth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="RecruitmentDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PhoneNumber" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="crew" Relationship="Self.crew_ibfk_1" FromRole="employees" ToRole="crew" />
+          <NavigationProperty Name="crew1" Relationship="Self.crew_ibfk_2" FromRole="employees" ToRole="crew" />
+          <NavigationProperty Name="crew2" Relationship="Self.crew_ibfk_3" FromRole="employees" ToRole="crew" />
+          <NavigationProperty Name="crew3" Relationship="Self.crew_ibfk_4" FromRole="employees" ToRole="crew" />
+        </EntityType>
+        <EntityType Name="flight">
+          <Key>
+            <PropertyRef Name="FlightID" />
+          </Key>
+          <Property Name="FlightID" Type="Int32" Nullable="false" />
+          <Property Name="DeparturePlace" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DestinationPlace" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DepartureTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ArrivalTime" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FlightStatus" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PlaneID" Type="Int32" Nullable="false" />
+          <Property Name="StripID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ticket" Relationship="Self.FK_flight_ticket1" FromRole="flight" ToRole="ticket" />
+          <NavigationProperty Name="landingstrips" Relationship="Self.FK_landingstrips_flight" FromRole="flight" ToRole="landingstrips" />
+          <NavigationProperty Name="plane" Relationship="Self.FK_plane_flight" FromRole="flight" ToRole="plane" />
+        </EntityType>
+        <EntityType Name="landingstrips">
+          <Key>
+            <PropertyRef Name="StripID" />
+          </Key>
+          <Property Name="StripID" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FlightID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="flight" Relationship="Self.FK_landingstrips_flight" FromRole="landingstrips" ToRole="flight" />
+        </EntityType>
+        <EntityType Name="passengers">
+          <Key>
+            <PropertyRef Name="PassengerID" />
+          </Key>
+          <Property Name="PassengerID" Type="Int32" Nullable="false" />
+          <Property Name="Fullname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Age" Type="Int32" Nullable="false" />
+          <Property Name="PhoneNumber" Type="Int32" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ticket" Relationship="Self.FK_ticket_ticket" FromRole="passengers" ToRole="ticket" />
+        </EntityType>
+        <EntityType Name="plane">
+          <Key>
+            <PropertyRef Name="PlaneID" />
+          </Key>
+          <Property Name="PlaneID" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Seats" Type="Int32" Nullable="false" />
+          <Property Name="Crew" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="crew1" Relationship="Self.FK_crew_plane" FromRole="plane" ToRole="crew" />
+          <NavigationProperty Name="flight" Relationship="Self.FK_plane_flight" FromRole="plane" ToRole="flight" />
+        </EntityType>
+        <EntityType Name="ticket">
+          <Key>
+            <PropertyRef Name="TicketID" />
+          </Key>
+          <Property Name="FlightID" Type="Int32" Nullable="false" />
+          <Property Name="Seat" Type="Int32" Nullable="false" />
+          <Property Name="PassengerID" Type="Int32" Nullable="false" />
+          <Property Name="TicketID" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <NavigationProperty Name="flight" Relationship="Self.FK_flight_ticket1" FromRole="ticket" ToRole="flight" />
+          <NavigationProperty Name="passengers" Relationship="Self.FK_ticket_ticket" FromRole="ticket" ToRole="passengers" />
+        </EntityType>
+        <Association Name="crew_ibfk_1">
+          <End Role="employees" Type="Self.employees" Multiplicity="1" />
+          <End Role="crew" Type="Self.crew" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="crew">
+              <PropertyRef Name="Pilot" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="crew_ibfk_2">
+          <End Role="employees" Type="Self.employees" Multiplicity="1" />
+          <End Role="crew" Type="Self.crew" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="crew">
+              <PropertyRef Name="SecondPilot" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="crew_ibfk_3">
+          <End Role="employees" Type="Self.employees" Multiplicity="1" />
+          <End Role="crew" Type="Self.crew" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="crew">
+              <PropertyRef Name="Stewardess" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="crew_ibfk_4">
+          <End Role="employees" Type="Self.employees" Multiplicity="1" />
+          <End Role="crew" Type="Self.crew" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="EmployeeID" />
+            </Principal>
+            <Dependent Role="crew">
+              <PropertyRef Name="Engineer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_crew_plane">
+          <End Role="crew" Type="Self.crew" Multiplicity="1" />
+          <End Role="plane" Type="Self.plane" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="crew">
+              <PropertyRef Name="CrewID" />
+            </Principal>
+            <Dependent Role="plane">
+              <PropertyRef Name="Crew" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_flight_ticket1">
+          <End Role="flight" Type="Self.flight" Multiplicity="1" />
+          <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="flight">
+              <PropertyRef Name="FlightID" />
+            </Principal>
+            <Dependent Role="ticket">
+              <PropertyRef Name="FlightID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_landingstrips_flight">
+          <End Role="flight" Type="Self.flight" Multiplicity="1" />
+          <End Role="landingstrips" Type="Self.landingstrips" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="flight">
+              <PropertyRef Name="FlightID" />
+            </Principal>
+            <Dependent Role="landingstrips">
+              <PropertyRef Name="FlightID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_plane_flight">
+          <End Role="plane" Type="Self.plane" Multiplicity="1" />
+          <End Role="flight" Type="Self.flight" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="plane">
+              <PropertyRef Name="PlaneID" />
+            </Principal>
+            <Dependent Role="flight">
+              <PropertyRef Name="PlaneID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ticket_ticket">
+          <End Role="passengers" Type="Self.passengers" Multiplicity="1" />
+          <End Role="ticket" Type="Self.ticket" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="passengers">
+              <PropertyRef Name="PassengerID" />
+            </Principal>
+            <Dependent Role="ticket">
+              <PropertyRef Name="PassengerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="controltowerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="crew" EntityType="Self.crew" />
+          <EntitySet Name="employees" EntityType="Self.employees" />
+          <EntitySet Name="flight" EntityType="Self.flight" />
+          <EntitySet Name="landingstrips" EntityType="Self.landingstrips" />
+          <EntitySet Name="passengers" EntityType="Self.passengers" />
+          <EntitySet Name="plane" EntityType="Self.plane" />
+          <EntitySet Name="ticket" EntityType="Self.ticket" />
+          <AssociationSet Name="crew_ibfk_1" Association="Self.crew_ibfk_1">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="crew" EntitySet="crew" />
+          </AssociationSet>
+          <AssociationSet Name="crew_ibfk_2" Association="Self.crew_ibfk_2">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="crew" EntitySet="crew" />
+          </AssociationSet>
+          <AssociationSet Name="crew_ibfk_3" Association="Self.crew_ibfk_3">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="crew" EntitySet="crew" />
+          </AssociationSet>
+          <AssociationSet Name="crew_ibfk_4" Association="Self.crew_ibfk_4">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="crew" EntitySet="crew" />
+          </AssociationSet>
+          <AssociationSet Name="FK_crew_plane" Association="Self.FK_crew_plane">
+            <End Role="crew" EntitySet="crew" />
+            <End Role="plane" EntitySet="plane" />
+          </AssociationSet>
+          <AssociationSet Name="FK_flight_ticket1" Association="Self.FK_flight_ticket1">
+            <End Role="flight" EntitySet="flight" />
+            <End Role="ticket" EntitySet="ticket" />
+          </AssociationSet>
+          <AssociationSet Name="FK_landingstrips_flight" Association="Self.FK_landingstrips_flight">
+            <End Role="flight" EntitySet="flight" />
+            <End Role="landingstrips" EntitySet="landingstrips" />
+          </AssociationSet>
+          <AssociationSet Name="FK_plane_flight" Association="Self.FK_plane_flight">
+            <End Role="plane" EntitySet="plane" />
+            <End Role="flight" EntitySet="flight" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ticket_ticket" Association="Self.FK_ticket_ticket">
+            <End Role="passengers" EntitySet="passengers" />
+            <End Role="ticket" EntitySet="ticket" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="controltowerModelStoreContainer" CdmEntityContainer="controltowerEntities">
+          <EntitySetMapping Name="crew">
+            <EntityTypeMapping TypeName="controltowerModel.crew">
+              <MappingFragment StoreEntitySet="crew">
+                <ScalarProperty Name="CrewID" ColumnName="CrewID" />
+                <ScalarProperty Name="Pilot" ColumnName="Pilot" />
+                <ScalarProperty Name="SecondPilot" ColumnName="SecondPilot" />
+                <ScalarProperty Name="Stewardess" ColumnName="Stewardess" />
+                <ScalarProperty Name="Engineer" ColumnName="Engineer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="employees">
+            <EntityTypeMapping TypeName="controltowerModel.employees">
+              <MappingFragment StoreEntitySet="employees">
+                <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+                <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="JobPosition" ColumnName="JobPosition" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="DateofBirth" ColumnName="DateofBirth" />
+                <ScalarProperty Name="RecruitmentDate" ColumnName="RecruitmentDate" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="flight">
+            <EntityTypeMapping TypeName="controltowerModel.flight">
+              <MappingFragment StoreEntitySet="flight">
+                <ScalarProperty Name="FlightID" ColumnName="FlightID" />
+                <ScalarProperty Name="DeparturePlace" ColumnName="DeparturePlace" />
+                <ScalarProperty Name="DestinationPlace" ColumnName="DestinationPlace" />
+                <ScalarProperty Name="DepartureTime" ColumnName="DepartureTime" />
+                <ScalarProperty Name="ArrivalTime" ColumnName="ArrivalTime" />
+                <ScalarProperty Name="FlightStatus" ColumnName="FlightStatus" />
+                <ScalarProperty Name="PlaneID" ColumnName="PlaneID" />
+                <ScalarProperty Name="StripID" ColumnName="StripID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="landingstrips">
+            <EntityTypeMapping TypeName="controltowerModel.landingstrips">
+              <MappingFragment StoreEntitySet="landingstrips">
+                <ScalarProperty Name="StripID" ColumnName="StripID" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="FlightID" ColumnName="FlightID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="passengers">
+            <EntityTypeMapping TypeName="controltowerModel.passengers">
+              <MappingFragment StoreEntitySet="passengers">
+                <ScalarProperty Name="PassengerID" ColumnName="PassengerID" />
+                <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="plane">
+            <EntityTypeMapping TypeName="controltowerModel.plane">
+              <MappingFragment StoreEntitySet="plane">
+                <ScalarProperty Name="PlaneID" ColumnName="PlaneID" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Seats" ColumnName="Seats" />
+                <ScalarProperty Name="Crew" ColumnName="Crew" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ticket">
+            <EntityTypeMapping TypeName="controltowerModel.ticket">
+              <MappingFragment StoreEntitySet="ticket">
+                <ScalarProperty Name="FlightID" ColumnName="FlightID" />
+                <ScalarProperty Name="Seat" ColumnName="Seat" />
+                <ScalarProperty Name="PassengerID" ColumnName="PassengerID" />
+                <ScalarProperty Name="TicketID" ColumnName="TicketID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
